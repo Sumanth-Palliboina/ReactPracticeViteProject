@@ -1,16 +1,20 @@
-# React + Vite
+1. Create Project
+"npm create vite@latest ." or "npm create vite@latest myapp"
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+2. bootstrap
+"npm install react-bootstrap bootstrap"
+In main.jsx, we have to import bootstrap css
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-Currently, two official plugins are available:
+Semantic Versioning Basics
+Format: MAJOR.MINOR.PATCH
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+MAJOR → Breaking changes
 
-## React Compiler
+MINOR → New features, backward-compatible
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+PATCH → Bug fixes, backward-compatible
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+In npm’s package.json, the tilde ~ allows only patch updates within the same minor version, while the caret ^ allows both minor and patch updates within the same major version.
+~1.0.0 ==>1.0.0 to 1.0.9 ==> not 1.1.0
+^1.0.0 ==>1.0.0 to 1.9.9 ==> not 2.0.0
