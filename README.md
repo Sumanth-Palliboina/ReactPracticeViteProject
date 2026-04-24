@@ -6,6 +6,10 @@
 In main.jsx, we have to import bootstrap css
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+3. material ui ->Material UI is an open-source React component library that implements Google's Material Design
+"npm install @mui/material @emotion/react @emotion/styled @mui/icons-material"
+
+
 Semantic Versioning Basics
 Format: MAJOR.MINOR.PATCH
 
