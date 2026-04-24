@@ -15,6 +15,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
+import {AppLogo} from "./styled-components"
+
 import './index.css'
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -57,7 +59,7 @@ function Header() {
         <Toolbar disableGutters>
           
           <Link to="/" replace>
-            <img className="logo" src="/lion_logo.jpg" width="50px" height="50px"  />
+            <AppLogo src="/lion_logo.jpg" wd="50px" ht="50px"  />
           </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
