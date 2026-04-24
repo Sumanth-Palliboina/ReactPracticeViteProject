@@ -22,3 +22,13 @@ PATCH → Bug fixes, backward-compatible
 In npm’s package.json, the tilde ~ allows only patch updates within the same minor version, while the caret ^ allows both minor and patch updates within the same major version.
 ~1.0.0 ==>1.0.0 to 1.0.9 ==> not 1.1.0
 ^1.0.0 ==>1.0.0 to 1.9.9 ==> not 2.0.0
+
+
+CASCADING STYLE SHEET: used to define styles for html elements
+SCSS (Syntactically Awesome Stylesheet) -->same like CSS but nesting
+SASS(Sassy CSS) -->with indentation and no semicolons and no curly braces
+
+CSS-IN-JS : styled-components (npm install styled-components)
+
+Routing:
+npm install react-router-dom
