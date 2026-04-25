@@ -88,8 +88,8 @@ function Header() {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <NavLink to={getNavLink(page)} className={({isActive}) => (isActive ? 'active-link' : '')} style={({isActive}) => ({textDecoration: "none", color: !isActive ? '#dad6d6' : ''})}>
-                  <MenuItem key={page} onClick={() => setAnchorElNav(null)}>
+                <NavLink key={page} to={getNavLink(page)} className={({isActive}) => (isActive ? 'active-link' : '')} style={({isActive}) => ({textDecoration: "none", color: !isActive ? '#dad6d6' : ''})}>
+                  <MenuItem onClick={() => setAnchorElNav(null)}>
                     <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
                   </MenuItem>
                 </NavLink>
