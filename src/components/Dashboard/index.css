@@ -1,0 +1,24 @@
+.dashboardBg{
+    background-image: url('/dashbaord.jpg');
+    background-size: cover;
+    min-height: 83vh;
+    width: 100%;
+}
+
+.heading{
+    color: #000;
+    font-family:'Courier New', Courier, monospace, sans-serif;
+    font-weight: 600;
+    font-size:24px;
+}
+
+.para{
+    font-size:15px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+}
+
+.shopBtn{
+    width: 100px;
+    height: 40px;
+}

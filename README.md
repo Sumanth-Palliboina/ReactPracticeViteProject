@@ -32,3 +32,19 @@ CSS-IN-JS : styled-components (npm install styled-components)
 
 Routing:
 npm install react-router-dom
+
+NavLink is a special component in React Router that’s designed for navigation links which need to reflect their active state.
+<NavLink 
+  to="/products" 
+  className={({ isActive }) => isActive ? "active-link" : ""}
+  style={({ isActive }) => ({
+    textDecoration: "none",
+    color: isActive ? "blue" : "gray"
+  })}
+>
+  Products
+</NavLink>
+
+<Outlet /> in React Router v6 is a placeholder component used for rendering child routes inside a parent route. 
+
+*To move conatiner of elements to right, margin-left value as auto

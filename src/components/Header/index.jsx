@@ -18,9 +18,9 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {AppLogo} from "./styled-components"
 
 import './index.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-const pages = ['Dashboard', 'Products', 'Projects', 'Contact US'];
+const pages = ['Dashboard', 'Products', 'Cart', 'Contact US'];
 const settings = ['Profile', 'Logout'];
 
 function Header() {
@@ -35,26 +35,24 @@ function Header() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = (page) => {
-    console.log(page)
+  const getNavLink = (page) => {
     if (page.toLowerCase() === "dashboard") {
-        navigate("/")
+        return "/"
     } else if (page.toLowerCase() === "contact us") {
-        navigate("/contact-us")
+        return "/contact-us"
     } else if (page.toLowerCase() === "products") {
-        navigate("/products")
+        return "/products"
     } else {
-        navigate("/projects")
+        return "/cart"
     }
-    setAnchorElNav(null);
-  };
+  }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#000' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#6f6161' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           
@@ -86,25 +84,29 @@ function Header() {
                 horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              onClose={() => setAnchorElNav(null)}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
-                </MenuItem>
+                <NavLink to={getNavLink(page)} className={({isActive}) => (isActive ? 'active-link' : '')} style={({isActive}) => ({textDecoration: "none", color: !isActive ? '#dad6d6' : ''})}>
+                  <MenuItem key={page} onClick={() => setAnchorElNav(null)}>
+                    <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                  </MenuItem>
+                </NavLink>
               ))}
             </Menu>
           </Box>
          
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' },  ml: 'auto' }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={() => handleCloseNavMenu(page)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                onClick={() => setAnchorElNav(null)}
+                sx={{ my: 2, color: 'white', display: 'block', mx: 2 }}
               >
-                {page}
+                <NavLink to={getNavLink(page)} className={({isActive}) => (isActive ? 'active-link' : '')}  style={({isActive}) => ({textDecoration: "none", color: !isActive ? '#dad6d6' : ''})}>
+                  {page}
+                </NavLink>
               </Button>
             ))}
           </Box>
