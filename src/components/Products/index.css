@@ -1,0 +1,24 @@
+
+.dropdown-container-with title{
+    font-size:14px;
+}
+.sort-title{
+    font-size: 17px;
+    font-weight: bold;
+    color: black;
+    margin-right: 10px;
+}
+.sort-select-input{
+    height: 35px;
+    width: 110;
+    font-size: 14px;
+}
+.product-items-container{
+    padding: 10px 0px 10px 0px;
+    list-style-type: none; /*remove dots (discs)*/
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    border: none !important
+}
