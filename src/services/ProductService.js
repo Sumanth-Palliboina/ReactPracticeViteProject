@@ -1,8 +1,15 @@
-import {apiInstance} from "./api"
+import {apiClientInstance} from "./api"
 
 export class ProductService {
 
+    apiClient = apiClientInstance
+    static instance = new ProductService()
+
+    constructor(){
+        
+    }
+
     static getProducts(path) {
-        return apiInstance().get(path)
+        return ProductService.instance.apiClient.get(path)
     }
 }
