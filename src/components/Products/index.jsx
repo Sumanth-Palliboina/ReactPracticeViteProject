@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useTransition } from 'react'
 
 import SortIcon from '@mui/icons-material/Sort';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,6 +8,8 @@ import './index.css'
 import ProductItem from '../ProductItem';
 import { ProductService } from '../../services/ProductService';
 import { ApiPaths } from '../../services/ApiPaths';
+
+import Spinner from 'react-bootstrap/Spinner';
 
 // const products = [
 //   {
@@ -46,26 +48,91 @@ function Products() {
   const [activeSort, setActiveSort] = useState(sortByOptions[0].sortId)
   const [products, setProducts] = useState([])
 
+  const [isPending, setIsPending] = useState(false)
+  const [error, setError] = useState('')
+
   const handleOnChangeSort = (event) => {
     const sortingId = event.target.value
     setActiveSort(sortingId)
   }
 
-  const getProducts = async () => {
-     try {
-      const res = await ProductService.getProducts(ApiPaths.getProdcutsPath)
-      if (res.status === 200) {
-        console.log(res.data)
-        setProducts(res.data)
+  const getProducts = async (isMounted = true) => {
+      try {
+        setIsPending(true)
+        const res = await ProductService.getProducts(ApiPaths.getProdcutsPath)
+        if (res.status === 200 && isMounted) {
+          console.log(res.data)
+          setProducts(res.data) //safe update
+        }
+      } catch (error) {
+        console.log("api error", error)
+        setError(error)
+      } finally {
+        setIsPending(false)
       }
-     }catch (error) {
-      console.log("api error", error)
-     }
+    }
+
+  //prevents updates after unmount, avoiding cascading renders.
+  useEffect(() => {
+    let isMounted = true
+
+    getProducts(isMounted)
+
+    return () => {
+      isMounted = false  //prevents state update when unmount
+    }
+  }, [])
+
+  const getSortedProducts = useCallback(() => {
+    if (products.length > 0) {
+      let itemsArr = [...products]
+      if (activeSort.toLowerCase() === "low-high") {
+        itemsArr.sort((a, b) => a?.price - b?.price)
+      } else {
+        itemsArr.sort((a, b) => b?.price - a?.price)
+      }
+      return itemsArr
+    }
+    return products
+  }, [activeSort, products])
+
+  const retryProductsFetching = () => {
+    getProducts()
   }
 
-  useEffect(() => {
-    getProducts()
-  }, [])
+  const renderSpinner = () => {
+    return (
+      <div style={{ height: '70vh' }} className='d-flex flex-column justify-content-center align-items-center'>
+        <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+      </div>
+    )
+  }
+
+  const renderSuccessView = () => {
+    return (
+      <ul className='product-items-container'>
+        {
+          getSortedProducts().map(each => (
+            <ProductItem key={each.id} product={each} />
+          ))
+        }
+      </ul>
+    )
+  }
+
+  const renderErrorView = () => {
+    return (
+    <div style={{ height: '70vh' }} className='d-flex flex-column justify-content-center align-items-center'>
+      <div className='text-center'>
+        <img src="/products_not_found.jpg" alt="no-products-img" width="250px" height="200px" />
+        <p className='text-center text-black fw-bold'>{error.status === 400 ? "Oops! Prodcuts Not found. Please try again" : "Something went wrong. Please try again."}</p>
+        <button className='fw-bold btn btn-outline-info' onClick={retryProductsFetching}>Retry</button>
+      </div>
+    </div>
+    )
+  }
 
   return (
     <div className='container-fluid p-4'>
@@ -94,13 +161,9 @@ function Products() {
           </div>
         </div>
         <div className='col-12'>
-          <ul className='product-items-container'>
-            {
-              products.map(each => (
-                <ProductItem key={each.id} product={each} />
-              ))
-            }
-          </ul>
+          {
+            isPending === true ? renderSpinner() : error ? renderErrorView() : renderSuccessView()
+          }
         </div>
       </div>
     </div>

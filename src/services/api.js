@@ -12,7 +12,7 @@ export const ApiClient = () => {
     let client = null
     if (!client) {
         client = axios.create({
-            baseURL: "https://69ecc232af4ff533142b5653.mockapi.io/api/v/",
+            baseURL: "https://69ecc232af4ff533142b5653.mockapi.io/api/v1/",
             headers: {
                 "Content-Type": "application/json"
             }
@@ -38,6 +38,6 @@ apiClientInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         console.log("error", error.response)
-        return Promise.reject(error)
+        return Promise.reject(error.response)
     }
 )
