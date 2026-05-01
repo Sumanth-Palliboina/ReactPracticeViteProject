@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useTransition } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import SortIcon from '@mui/icons-material/Sort';
 import MenuItem from '@mui/material/MenuItem';
@@ -56,13 +56,14 @@ function Products() {
     setActiveSort(sortingId)
   }
 
-  const getProducts = async (isMounted = true) => {
+  const getProducts = async () => {
       try {
         setIsPending(true)
         const res = await ProductService.getProducts(ApiPaths.getProdcutsPath)
-        if (res.status === 200 && isMounted) {
+        if (res.status === 200) {
           console.log(res.data)
-          setProducts(res.data) //safe update
+          setProducts(res.data)
+          setError('')
         }
       } catch (error) {
         console.log("api error", error)
@@ -75,6 +76,23 @@ function Products() {
   //prevents updates after unmount, avoiding cascading renders.
   useEffect(() => {
     let isMounted = true
+
+    const getProducts = async (isMounted = true) => {
+      try {
+        setIsPending(true)
+        const res = await ProductService.getProducts(ApiPaths.getProdcutsPath)
+        if (res.status === 200 && isMounted) {
+          console.log(res.data)
+          setProducts(res.data) //safe update
+          setError('')
+        }
+      } catch (error) {
+        console.log("api error", error)
+        setError(error)
+      } finally {
+        setIsPending(false)
+      }
+    }
 
     getProducts(isMounted)
 

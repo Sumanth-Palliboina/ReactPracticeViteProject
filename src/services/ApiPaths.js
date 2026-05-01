@@ -1,3 +1,3 @@
 export class ApiPaths {
-    static getProdcutsPath = "/prodcut"
+    static getProdcutsPath = "/prodcuts"
 }
