@@ -100,6 +100,7 @@ function Header() {
           <Box sx={{ display: { xs: 'none', md: 'flex' },  ml: 'auto' }}>
             {pages.map((page) => (
               <Button
+              id="navLink-item"
                 key={page}
                 onClick={() => setAnchorElNav(null)}
                 sx={{ my: 2, color: 'white', display: 'block', mx: 2 }}
