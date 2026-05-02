@@ -11,6 +11,8 @@ import { ApiPaths } from '../../services/ApiPaths';
 
 import Spinner from 'react-bootstrap/Spinner';
 
+import { toast } from "react-toastify"
+
 // const products = [
 //   {
 //     "name": "Mens Formula",
@@ -57,24 +59,32 @@ function Products() {
   }
 
   const getProducts = async () => {
-      try {
-        setIsPending(true)
-        const res = await ProductService.getProducts(ApiPaths.getProdcutsPath)
-        if (res.status === 200) {
-          console.log(res.data)
-          setProducts(res.data)
-          setError('')
-        }
-      } catch (error) {
-        console.log("api error", error)
-        setError(error)
-      } finally {
-        setIsPending(false)
+    try {
+      setIsPending(true)
+      const res = await ProductService.getProducts(ApiPaths.getProdcutsPath)
+      if (res.status === 200) {
+        console.log(res.data)
+        setProducts(res.data)
+        setError('')
       }
+    } catch (error) {
+      if (error.status === 404) {
+         notifyError("Products not found. Please try after sometime.")
+      }
+      console.log("api error", error)
+      setError(error)
+    } finally {
+      setIsPending(false)
     }
+  }
+
+  const notifyError = (errMsg) => {
+    toast.error(errMsg)
+  }
 
   //prevents updates after unmount, avoiding cascading renders.
   useEffect(() => {
+    console.log("component is mounted")
     let isMounted = true
 
     const getProducts = async (isMounted = true) => {
@@ -97,6 +107,7 @@ function Products() {
     getProducts(isMounted)
 
     return () => {
+      console.log("component is unounted")
       isMounted = false  //prevents state update when unmount
     }
   }, [])
@@ -122,8 +133,8 @@ function Products() {
     return (
       <div style={{ height: '70vh' }} className='d-flex flex-column justify-content-center align-items-center'>
         <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
       </div>
     )
   }
@@ -142,13 +153,13 @@ function Products() {
 
   const renderErrorView = () => {
     return (
-    <div style={{ height: '70vh' }} className='d-flex flex-column justify-content-center align-items-center'>
-      <div className='text-center'>
-        <img src="/products_not_found.jpg" alt="no-products-img" width="250px" height="200px" />
-        <p className='text-center text-black fw-bold'>{error.status === 400 ? "Oops! Prodcuts Not found. Please try again" : "Something went wrong. Please try again."}</p>
-        <button className='fw-bold btn btn-outline-info' onClick={retryProductsFetching}>Retry</button>
+      <div style={{ height: '70vh' }} className='d-flex flex-column justify-content-center align-items-center'>
+        <div className='text-center'>
+          <img src="/products_not_found.jpg" alt="no-products-img" width="250px" height="200px" />
+          <p className='text-center text-black fw-bold'>{error.status === 400 ? "Oops! Prodcuts Not found. Please try again" : "Something went wrong. Please try again."}</p>
+          <button className='fw-bold btn btn-outline-info' onClick={retryProductsFetching}>Retry</button>
+        </div>
       </div>
-    </div>
     )
   }
 

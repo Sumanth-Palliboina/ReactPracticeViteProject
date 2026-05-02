@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import TextField from '@mui/material/TextField';
 
 import {AppLogo} from "./styled-components"
 
@@ -60,6 +61,8 @@ function Header() {
             <AppLogo src="/lion_logo.jpg" wd="50px" ht="50px"  />
           </Link>
 
+          <input className='small-devices-hide large-devices-show' type="search" placeholder='Search Product' style={{accentColor: 'green',fontSize: '14px', height:'30px', outline: 'none', border: 'none', background: '#e6dfdf', borderRadius: '10px', marginLeft:'30px', paddingLeft:'10px'}} />
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -96,6 +99,8 @@ function Header() {
               ))}
             </Menu>
           </Box>
+
+          <input className='small-devices-show large-devices-hide' type="search" placeholder='Search Product' style={{accentColor: 'green',fontSize: '14px', height:'30px', outline: 'none', border: 'none', background: '#e6dfdf', borderRadius: '10px', paddingLeft:'10px'}} />
          
           <Box sx={{ display: { xs: 'none', md: 'flex' },  ml: 'auto' }}>
             {pages.map((page) => (

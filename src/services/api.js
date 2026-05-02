@@ -8,6 +8,11 @@ import axios from "axios";
  * JWT tokens → usually stored in headers (Authorization), so withCredentials isn’t needed.
  */
 
+/**
+ * 
+ * Boolean(condition) -->Boolean(null) becomes false
+ */
+
 export const ApiClient = () => {
     let client = null
     if (!client) {

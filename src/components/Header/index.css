@@ -18,3 +18,36 @@
     scale:1.1;
     transition: all 0.5s;
 }
+
+.small-devices-hide{
+    max-width: 350px;
+    min-width: 200px;
+    width: 50%;
+}
+
+.small-devices-show{
+    max-width: 350px;
+    min-width: 140px;
+    width: 20%;
+    margin-right: 30px;
+    flex-shrink: 1;
+}
+
+@media (max-width:899px) {
+    .small-devices-hide{
+        display: none;
+    }
+
+    .small-devices-show{
+        display:block;
+    }
+}
+
+@media (min-width:900px) {
+    .large-devices-show{
+        display: block;
+    }
+    .large-devices-hide{
+        display: none;
+    }
+}

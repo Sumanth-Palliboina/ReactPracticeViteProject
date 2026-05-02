@@ -9,9 +9,13 @@ import Layout from './components/Layout';
 import NotFound from './components/NotFound';
 import Cart from './components/Cart';
 
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 function App() {
 
   return (
+    <>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />} >
@@ -25,6 +29,16 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
+    <ToastContainer
+        position="top-right"
+        autoClose={3000} // auto dismiss after 3s
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
+      </>
   )
 }
 
