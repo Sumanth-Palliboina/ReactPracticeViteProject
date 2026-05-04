@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useMemo, useEffect, useState, useReducer } from 'react'
 
 import SortIcon from '@mui/icons-material/Sort';
 import MenuItem from '@mui/material/MenuItem';
@@ -45,11 +45,32 @@ const sortByOptions = [
   },
 ]
 
+const initialState = {
+  products: [],
+  loading: false,
+  error: ''
+}
+
+const productsReducer = (state, action) => {
+  switch(action.type) {
+    case "Success_Products":
+      return {...state, products: action.payload, loading: false }
+    case "Fetching_Products":
+      return {...state, loading: true}
+    case "Producs_Failure":
+      return {...state, products: [], error: action.payload, loading:false }
+    default:
+      return state
+  }
+}
+
 function Products() {
 
-  const [activeSort, setActiveSort] = useState(sortByOptions[0].sortId)
-  const [products, setProducts] = useState([])
+  const [state, dispatch] = useReducer(productsReducer, initialState)
 
+  const [activeSort, setActiveSort] = useState(sortByOptions[0].sortId)
+
+  const [products, setProducts] = useState([])
   const [isPending, setIsPending] = useState(false)
   const [error, setError] = useState('')
 
@@ -112,7 +133,7 @@ function Products() {
     }
   }, [])
 
-  const getSortedProducts = useCallback(() => {
+  const getSortedProducts = useMemo(() => {
     if (products.length > 0) {
       let itemsArr = [...products]
       if (activeSort.toLowerCase() === "low-high") {
@@ -143,7 +164,7 @@ function Products() {
     return (
       <ul className='product-items-container'>
         {
-          getSortedProducts().map(each => (
+          getSortedProducts.map(each => (
             <ProductItem key={each.id} product={each} />
           ))
         }
